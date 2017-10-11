@@ -24,12 +24,7 @@ def get_distances(list_distances, k):
 
 def run(x_test):
 
-
-    # TODO: Write your algorithm here
-#    raise NotImplementedError
-
     mnist = read_data_sets("/tmp/data", one_hot=True)
-    ntrain = mnist.train.num_examples
     Xtrain = mnist.train.images
     ytrain = mnist.train.labels
 
@@ -41,27 +36,53 @@ def run(x_test):
     i = 0
     z = 0
 
+    # tf Graph Input
+    xtrain_ph = tf.placeholder("float", [None, 784])
+    xtest_ph = tf.placeholder("float", [784])
 
+    distance = tf.reduce_sum(tf.abs(tf.add(xtrain_ph, tf.negative(xtest_ph))), axis=1)
+    # Prediction: Get min distance index (Nearest neighbor)
+    prediction = tf.argmin(distance, 0)
+
+    # Initialize the variables (i.e. assign their default value)
+    init = tf.global_variables_initializer()
+
+    with tf.Session() as sess:
+        sess.run(init)
+        for i in range(len(x_test)):
+            nn = sess.run(prediction, feed_dict={xtrain_ph: Xtrain, xtest_ph: x_test[i, :]})
+            huge_final_list.append(np.argmax(ytrain[nn]))
+            print(distance)
+            print("THIS IS huge_final_list")
+            print(huge_final_list)
+
+    print("THIS IS huge_final_list")
+    print(huge_final_list)
+
+    predicted_y_test = huge_final_list
+    return predicted_y_test
     # getting 1000 images to test (training set)
-    x = [randint(0, ntrain - 1) for p in range(0, 1000)]
+ #   x = [randint(0, ntrain - 1) for p in range(0, 1000)]
 
+
+ #   print(range(len(Xtrain)))
     # work within for loop to test samples
-    for j in range(len(x_test)):
-        i = 0
-        for i in range(len(x)):
-            sample = x[i]  # get one sample
+#    for j in range(len(x_test)):
+ #       i = 0
+ #       for i in range(len(Xtrain)):
+          #  sample = x[i]  # get one sample
             # euclidean distance function
-            distance = euclideanDistance(x_test[j], Xtrain[sample], 784)
+  #          distance = euclideanDistance(x_test[j], Xtrain[i], 784)
             # store all distances coupled with their array
-            all_distances.append((Xtrain[sample], distance))
-            if i == 999:
-                print(j, i)
-                all_distances.sort(key=operator.itemgetter(1))
-                distances = get_distances(all_distances, k)
-                bigint = most_common(distances)
-                huge_final_list.append(bigint)
-                print(huge_final_list)
-                all_distances = []
+   #         all_distances.append((Xtrain[i], distance))
+    #        if i == 999:
+     #           print(j, i)
+      #          all_distances.sort(key=operator.itemgetter(1))
+       #         distances = get_distances(all_distances, k)
+        #        bigint = most_common(distances)
+        #        huge_final_list.append(bigint)
+        #        print(huge_final_list)
+#                all_distances = []
                 #print("Distance:" + repr(distance))
 
     print("THIS IS huge_final_list")
