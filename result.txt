@@ -1,6 +1,6 @@
 [   OrderedDict([   ('last_name', 'Insert your Last name here'),
                     ('first_name', 'Insert your First name here')]),
-    OrderedDict([   ('run_time', 175.07750157199916),
-                    ('correct_predict', 972),
+    OrderedDict([   ('run_time', 16.061980449998373),
+                    ('accuracy', 0.98),
                     ('algorithm_name', 'knn'),
-                    ('accuracy', 0.972)])]
+                    ('correct_predict', 98)])]

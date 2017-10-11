@@ -36,65 +36,59 @@ def run(x_test):
     i = 0
     z = 0
 
-    # tf Graph Input
     xtrain_ph = tf.placeholder("float", [None, 784])
     xtest_ph = tf.placeholder("float", [784])
 
-    distance = tf.reduce_sum(tf.abs(tf.add(xtrain_ph, tf.negative(xtest_ph))), axis=1)
+#   distance = tf.reduce_sum(tf.abs(tf.add(xtrain_ph, tf.negative(xtest_ph))), axis=1) # a + -b
+    # euclidean distance function
+    distance = tf.reduce_sum(tf.abs(tf.subtract(xtrain_ph, xtest_ph)), axis=1)  # a - b
+
     # Prediction: Get min distance index (Nearest neighbor)
     prediction = tf.argmin(distance, 0)
 
     # Initialize the variables (i.e. assign their default value)
     init = tf.global_variables_initializer()
 
+    # get the x_test labels and store into list
     with tf.Session() as sess:
         sess.run(init)
         for i in range(len(x_test)):
-            nn = sess.run(prediction, feed_dict={xtrain_ph: Xtrain, xtest_ph: x_test[i, :]})
-            huge_final_list.append(np.argmax(ytrain[nn]))
-            print(distance)
+            bigint = sess.run(prediction, feed_dict={xtrain_ph: Xtrain, xtest_ph: x_test[i, :]})
+            huge_final_list.append(np.argmax(ytrain[bigint]))
             print("THIS IS huge_final_list")
             print(huge_final_list)
 
     print("THIS IS huge_final_list")
     print(huge_final_list)
 
+    # return x_test labels in predicted_y_test
     predicted_y_test = huge_final_list
     return predicted_y_test
-    # getting 1000 images to test (training set)
- #   x = [randint(0, ntrain - 1) for p in range(0, 1000)]
+
+    '''
+     getting 1000 images to test (training set)
+    x = [randint(0, ntrain - 1) for p in range(0, 1000)]
 
 
- #   print(range(len(Xtrain)))
+    print(range(len(Xtrain)))
     # work within for loop to test samples
-#    for j in range(len(x_test)):
- #       i = 0
- #       for i in range(len(Xtrain)):
-          #  sample = x[i]  # get one sample
-            # euclidean distance function
-  #          distance = euclideanDistance(x_test[j], Xtrain[i], 784)
-            # store all distances coupled with their array
-   #         all_distances.append((Xtrain[i], distance))
-    #        if i == 999:
-     #           print(j, i)
-      #          all_distances.sort(key=operator.itemgetter(1))
-       #         distances = get_distances(all_distances, k)
-        #        bigint = most_common(distances)
-        #        huge_final_list.append(bigint)
-        #        print(huge_final_list)
-#                all_distances = []
-                #print("Distance:" + repr(distance))
-
-    print("THIS IS huge_final_list")
-    print(huge_final_list)
-
-    predicted_y_test = []
-    predicted_y_test = huge_final_list
-    return predicted_y_test
-
-
-
-
+    for j in range(len(x_test)):
+        i = 0
+        for i in range(len(Xtrain)):
+            sample = x[i]  # get one sample
+             euclidean distance function
+             distance = euclideanDistance(x_test[j], Xtrain[i], 784)
+             store all distances coupled with their array
+            all_distances.append((Xtrain[i], distance))
+            if i == 999:
+                print(j, i)
+                all_distances.sort(key=operator.itemgetter(1))
+                distances = get_distances(all_distances, k)
+                bigint = most_common(distances)
+                huge_final_list.append(bigint)
+                print(huge_final_list)
+                all_distances = []
+                print("Distance:" + repr(distance)) '''
 
 
 def hyperparameters_search():

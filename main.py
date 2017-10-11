@@ -39,7 +39,7 @@ if __name__ == '__main__':
     for algorithm in [knn]:     #[svm, exponential, knn]:
         x_valid, y_valid = mnist.validation._images, mnist.validation.labels
         if algorithm.__name__ == 'knn':
-            x_valid, y_valid = x_valid[:1000], y_valid[:1000]
+            x_valid, y_valid = x_valid[:100], y_valid[:100]
         correct_predict, accuracy, run_time = run(algorithm, x_valid, y_valid, algorithm_name=algorithm.__name__)
         result.append(OrderedDict(
             algorithm_name=algorithm.__name__,
